@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my project</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main_div">
+        <div class="music">
+            <h2 id="title"></h2>
+            <h3 id="artist"></h3>
+            <div class="image">
+               <img src="./images/arcade.jpg" alt="">
+            </div>
+            <audio src="./music/Arcade.mp3" ></audio>
+            <!--control-->
+            <div class="music_control">
+                <i class="fas fa-backward" id="prev" title="previous"></i>
+                <i class="fas fa-play main_button" id="play" title="play"></i>
+                <i class="fas fa-forward" id="next" title="Forward"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector("img");
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+      
+        const songs =[
+            {
+                name: "song-1",
+                title:"arcade",
+                artist:"duncan laurence",
+            },
+ 
+            {
+                name: "song-2",
+                title:"into your arms",
+                artist:"ava max",
+            },
+            
+            {
+                name: "song-3",
+                title:"love me",
+                artist:"ellie goulding",
+            } ,      
+        ]
+
+        let isPlaying=false;
+//play
+        const playMusic = ()=>{
+            isPlaying = true;
+            music.play();
+            play.classList.replace("fa-play", "fa-pause");
+            img.classList.add("anime");
+        };
+//pouse
+        const pouseMusic = () => {
+            isPlaying=false;
+            music.pause();
+            play.classList.replace("fa-pause", "fa-play");
+            img.classList.remove("anime");
+        };
+        play.addEventListener("click",()=>{
+           // if(isPlaying) {
+             //   pouseMusic();
+            //} else{
+              //  playMusic();
+           // }
+            isPlaying ? pouseMusic () : playMusic();
+        });
+        //changing
+              const loadSong = (songs)=>{
+                  title.textContent=songs.title;
+                  artist.textContent=songs.artist;
+                  music.src = "./music/" + songs.name +".mp3";
+                  img.src = "./images/" + songs.name + ".jpg";
+              };
+
+          songIndex = 0;    
+       // loadSong(songs[2]);
+        const nextSong = () => {
+            songIndex= (songIndex + 1 )% songs.length;
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+        const prevSong = () => {
+            songIndex= (songIndex - 1 + songs.length) % songs.length;
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+        
+        next.addEventListener("click", nextSong);
+        prev.addEventListener("click", prevSong);
+    </script>
+</body>
+</html>
